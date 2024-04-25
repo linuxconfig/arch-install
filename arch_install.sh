@@ -41,7 +41,7 @@ function prepare_disk() {
         exit 1
     fi
 
-    drive="/dev/${drive}"
+    export drive="/dev/${drive}"
 
     # Create and format the partition
     echo -e "o\nn\np\n1\n\n\nw" | fdisk $drive
@@ -250,6 +250,9 @@ function finish_installation() {
 
 
 function chroot_system() {
+    # Export the drive variable before entering the chroot
+    export drive
+
     # Execute commands inside the chroot environment
     arch-chroot /mnt /bin/bash <<EOF
     # Make environment variables available inside chroot
